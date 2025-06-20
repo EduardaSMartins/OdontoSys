@@ -1,0 +1,21 @@
+# Backlog
+- Login - SP1
+- Tenant (clínica) - SP1
+- Perfil - SP2
+- Usuário - SP2
+- Paciente - SP3
+- Funcionário - SP3
+- Função - SP3
+- Dentista - SP3
+- Especialidade - SP4
+- Convênio - SP4
+- Tratamento - SP4
+- Procedimento - SP4
+- Modelo de Documento  - SP5
+- Medicamento - SP5
+- Agenda - SP5
+- CID - SP6
+- Medicamento - SP6
+- Atendimento - SP6
+- Conta - SP7
+- Parcela - SP7
