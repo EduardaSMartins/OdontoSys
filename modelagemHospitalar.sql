@@ -3,7 +3,7 @@ CREATE TABLE usuario(
     username VARCHAR(45) NOT NULL,
     email VARCHAR(100) NOT NULL,
     password VARCHAR(45) NOT NULL,
-    isRoot BOOLEAN NOT NULL DEFAULT false,
+    root BOOLEAN NOT NULL DEFAULT false,
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL, 
     deletedAt DATETIME
@@ -392,6 +392,14 @@ CREATE TABLE anexos(
     FOREIGN KEY (idUsuario) REFERENCES id ON usuario
 );
 
+CREATE TABLE funcao(
+    id INT PRIMARY KEY,
+    descricao VARCHAR(255) NOT NULL,
+    createdAt DATETIME NOT NULL,
+    updatedAt DATETIME NOT NULL, 
+    deletedAt DATETIME,
+);
+
 -- Tabelas de relacionamentos N-N
 CREATE TABLE pacienteConvenio(
     id INT PRIMARY KEY,
@@ -424,6 +432,9 @@ CREATE TABLE prescricaoMedicamento(
     id INT PRIMARY KEY,
     idPrescricao INT NOT NULL,
     idMedicamento INT NOT NULL,
+    dose VARCHAR(45) NOT NULL,
+    dias INT NOT NULL, 
+    periodicidade VARCHAR(45) NOT NULL,
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL, 
     deletedAt DATETIME,
@@ -436,6 +447,11 @@ CREATE TABLE pacienteProcedimento(
     id INT PRIMARY KEY,
     idPaciente INT NOT NULL,
     idProcedimento INT NOT NULL,
+    dataInicio DATE NOT NULL,
+    dataFim DATE,
+    horarioInicio TIME NOT NULL, 
+    horarioFim TIME,
+    observacao VARCHAR(255),
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL, 
     deletedAt DATETIME,
@@ -448,6 +464,7 @@ CREATE TABLE medicoEspecialidade(
     id INT PRIMARY KEY,
     idMedico INT NOT NULL,
     idEspecialidade INT NOT NULL,
+    observacao VARCHAR(255),
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL, 
     deletedAt DATETIME,
@@ -460,6 +477,8 @@ CREATE TABLE procedimentoDiagnostico(
     id INT PRIMARY KEY,
     idProcedimento INT NOT NULL,
     idDiagnostico INT NOT NULL,
+    descricao VARCHAR(100) NOT NULL,
+    observacao VARCHAR(255),
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL, 
     deletedAt DATETIME,
@@ -472,6 +491,8 @@ CREATE TABLE exameDiagnostico(
     id INT PRIMARY KEY,
     idExame INT NOT NULL,
     idDiagnostico INT NOT NULL,
+    descricao VARCHAR(100) NOT NULL,
+    observacao VARCHAR(255),
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL, 
     deletedAt DATETIME,
@@ -484,6 +505,8 @@ CREATE TABLE pacienteExame(
     id INT PRIMARY KEY,
     idPaciente INT NOT NULL,
     idExame INT NOT NULL,
+    descricao VARCHAR(100) NOT NULL,
+    observacao VARCHAR(255),
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL, 
     deletedAt DATETIME,
@@ -496,18 +519,22 @@ CREATE TABLE procedimentoEquipe(
     id INT PRIMARY KEY,
     idProcedimento INT NOT NULL,
     idFuncionario INT NOT NULL,
+    idFuncao INT NOT NULL,
+    observacao VARCHAR(255),
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL, 
     deletedAt DATETIME,
 
     FOREIGN KEY (idProcedimento) REFERENCES id ON procedimento,
     FOREIGN KEY (idFuncionario) REFERENCES id ON funcionario
+    FOREIGN KEY (idFuncao) REFERENCES id ON funcao
 );
 
 CREATE TABLE escalaEquipe(
     id INT PRIMARY KEY,
     idEscala INT NOT NULL,
     idFuncionario INT NOT NULL,
+    observacao VARCHAR(255),
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL, 
     deletedAt DATETIME,
@@ -520,6 +547,8 @@ CREATE TABLE turnoFuncionario(
     id INT PRIMARY KEY,
     idTurno INT NOT NULL,
     idFuncionario INT NOT NULL,
+    dataInicio DATE NOT NULL,
+    dataFim DATE,
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL, 
     deletedAt DATETIME,
@@ -532,6 +561,7 @@ CREATE TABLE pacienteAlergia(
     id INT PRIMARY KEY,
     idPaciente INT NOT NULL,
     idAlergia INT NOT NULL,
+    observacao VARCHAR(255),
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL, 
     deletedAt DATETIME,
@@ -544,6 +574,7 @@ CREATE TABLE pacienteComorbidade(
     id INT PRIMARY KEY,
     idPaciente INT NOT NULL,
     idComorbidade INT NOT NULL,
+    observacao VARCHAR(255),
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL, 
     deletedAt DATETIME,
@@ -556,6 +587,8 @@ CREATE TABLE pacienteDoenca(
     id INT PRIMARY KEY,
     idPaciente INT NOT NULL,
     idDoenca INT NOT NULL,
+    tratamento TEXT,
+    observacao VARCHAR(255),
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL, 
     deletedAt DATETIME,
@@ -563,4 +596,3 @@ CREATE TABLE pacienteDoenca(
     FOREIGN KEY (idPaciente) REFERENCES id ON paciente,
     FOREIGN KEY (idDoenca) REFERENCES id ON doenca
 );
-
